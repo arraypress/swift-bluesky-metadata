@@ -48,14 +48,6 @@ public struct BlueskyProfile: Sendable, Identifiable {
     /// When the account was created, if parseable.
     public let createdAt: Date?
 
-    /// The stable identifier for this profile (the actor's DID).
-    public var id: String { did }
-
-    /// The canonical `bsky.app` web URL for this profile.
-    public var bskyURL: String {
-        "https://bsky.app/profile/\(handle)"
-    }
-
     /// Creates a Bluesky profile.
     public init(
         did: String,

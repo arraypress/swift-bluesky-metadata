@@ -24,9 +24,6 @@ public struct BlueskyAuthor: Sendable, Identifiable, Equatable {
     /// A URL to the author's avatar image, if set.
     public let avatar: String?
 
-    /// The stable identifier for this author (their DID).
-    public var id: String { did }
-
     /// Creates a Bluesky author.
     public init(
         did: String,
@@ -85,19 +82,6 @@ public struct BlueskyPost: Sendable, Identifiable {
 
     /// The number of quote posts.
     public let quoteCount: Int
-
-    /// The stable identifier for this post (its AT Protocol URI).
-    public var id: String { uri }
-
-    /// The record key (`rkey`) — the last path component of the ``uri``.
-    public var rkey: String {
-        uri.split(separator: "/").last.map(String.init) ?? ""
-    }
-
-    /// The canonical `bsky.app` web URL for this post.
-    public var bskyURL: String {
-        "https://bsky.app/profile/\(author.did)/post/\(rkey)"
-    }
 
     /// Creates a Bluesky post.
     public init(

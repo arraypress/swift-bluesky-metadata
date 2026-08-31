@@ -52,24 +52,6 @@ public struct BlueskyComment: Sendable, Identifiable {
     /// The direct replies to this comment.
     public let replies: [BlueskyComment]
 
-    /// The stable identifier for this comment (its AT Protocol URI).
-    public var id: String { uri }
-
-    // MARK: - Computed
-
-    /// Whether this comment has any fetched replies.
-    public var hasReplies: Bool { !replies.isEmpty }
-
-    /// The total number of descendant comments beneath this one (fetched).
-    public var descendantCount: Int {
-        replies.reduce(replies.count) { $0 + $1.descendantCount }
-    }
-
-    /// This comment followed by all of its descendants, depth-first.
-    public var flattened: [BlueskyComment] {
-        [self] + replies.flatMap(\.flattened)
-    }
-
     /// Creates a Bluesky comment.
     public init(
         uri: String,
@@ -91,20 +73,5 @@ public struct BlueskyComment: Sendable, Identifiable {
         self.replyCount = replyCount
         self.depth = depth
         self.replies = replies
-    }
-}
-
-// MARK: - Array helpers
-
-public extension Array where Element == BlueskyComment {
-
-    /// All comments in the tree, depth-first (each comment followed by its replies).
-    var flattened: [BlueskyComment] {
-        flatMap(\.flattened)
-    }
-
-    /// The total number of comments in the tree (top-level + all nested replies).
-    var totalCount: Int {
-        reduce(count) { $0 + $1.descendantCount }
     }
 }
